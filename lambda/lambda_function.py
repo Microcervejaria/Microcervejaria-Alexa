@@ -27,7 +27,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Bem vindo a Microcervejaria Home Beer, você pode dizer Ola ou Ajuda. Qual você gostaria de tentar?"
+        speak_output = "Seja bem vindo a Micro Cervejaria Home Beer. O que você gostaria ?"
 
         return (
             handler_input.response_builder
