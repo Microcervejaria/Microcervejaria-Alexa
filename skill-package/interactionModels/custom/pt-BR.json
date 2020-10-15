@@ -44,7 +44,17 @@
         {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
-        }
+        },
+        {
+            "name": "StatusProducaoIntent",
+            "slots": [],
+            "samples": [
+                "andamento da produção",
+                "como anda a produção",
+                "status da produção",
+                "Qual status da produção"
+            ]
+        },
       ],
       "types": []
     }
