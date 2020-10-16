@@ -5,11 +5,26 @@
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "cancelar ação",
+            "cancela ação",
+            "cancela",
+            "cancelar"
+          ]
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": []
+          "samples": [
+              "ajuda",
+              "como começar",
+              "quais opções",
+              "o que posso fazer",
+              "me ajude",
+              "ajuda",
+              "o que posso fazer ",
+              "quais são os comandos",
+              "help"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
@@ -29,6 +44,18 @@
           ]
         },
         {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "voltar home",
+            "home",
+            "início",
+            "volte para o início",
+            "vai para home",
+            "volta para home",
+            "volta para página inicial"
+          ]
+        },
+        {
           "name": "OlaMundoIntent",
           "slots": [],
           "samples": [
@@ -42,22 +69,17 @@
           ]
         },
         {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
-        },
-        {
-            "name": "StatusProducaoIntent",
-            "slots": [],
-            "samples": [
-                "andamento da produção",
-                "como anda a produção",
-                "status da produção",
-                "Qual status da produção"
-            ]
+          "name": "ListarReceitasIntent",
+          "slots": [],
+          "samples": [
+            "quais são as receitas",
+            "me diga as receitas",
+            "lista de receitas",
+            "receitas",
+            "listar receita"
+          ]
         },
       ],
       "types": []
     }
-  },
-  "version": "2"
 }
