@@ -36,6 +36,24 @@ class LaunchRequestHandler(AbstractRequestHandler):
                 .response
         )
 
+class HelpIntentHandler(AbstractRequestHandler):
+    """Handler for Help Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("AMAZON.HelpIntent")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speak_output = "Você pode pedir para iniciar alguma receita, iniciar limpeza, listar as receitas, ou até mesmo detalhar alguma receitas  Podendo também indicar o tempo para fim de algum  processo, ou tempo para fim da limpeza"
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
+        
+
 
 class OlaMundoIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
@@ -54,23 +72,6 @@ class OlaMundoIntentHandler(AbstractRequestHandler):
                 .response
         )
 
-
-class HelpIntentHandler(AbstractRequestHandler):
-    """Handler for Help Intent."""
-    def can_handle(self, handler_input):
-        # type: (HandlerInput) -> bool
-        return ask_utils.is_intent_name("AMAZON.HelpIntent")(handler_input)
-
-    def handle(self, handler_input):
-        # type: (HandlerInput) -> Response
-        speak_output = "You can say hello to me! How can I help?"
-
-        return (
-            handler_input.response_builder
-                .speak(speak_output)
-                .ask(speak_output)
-                .response
-        )
 
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
