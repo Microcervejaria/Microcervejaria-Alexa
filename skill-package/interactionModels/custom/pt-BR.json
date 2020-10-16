@@ -5,11 +5,26 @@
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "cancelar ação",
+            "cancela ação",
+            "cancela",
+            "cancelar"
+          ]
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": []
+          "samples": [
+              "ajuda",
+              "como começar",
+              "quais opções",
+              "o que posso fazer",
+              "me ajude",
+              "ajuda",
+              "o que posso fazer ",
+              "quais são os comandos",
+              "help"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
@@ -26,6 +41,18 @@
             "hi",
             "say hello world",
             "say hello"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "voltar home",
+            "home",
+            "início",
+            "volte para o início",
+            "vai para home",
+            "volta para home",
+            "volta para página inicial"
           ]
         },
         {
@@ -59,6 +86,4 @@
       ],
       "types": []
     }
-  },
-  "version": "2"
 }
