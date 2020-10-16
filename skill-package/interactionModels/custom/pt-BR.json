@@ -122,7 +122,24 @@
             "Quanto tempo falta para terminar a limpeza ",
             "Qual status atual da limpeza "
            ]
-      }
+      },
+      {
+        "name": "iniciarReceitaIntent",
+        "slots": [
+            {
+                "name": "nomeReceita",
+                "type": "AMAZON.Food"
+            }
+        ],
+        "samples": [
+            "faz a {nomeReceita}",
+            "fazer {nomeReceita}",
+            "começar a fazer {nomeReceita}",
+            "receita{nomeReceita}",
+            "iniciar {nomeReceita} ",
+            "iniciar receita {nomeReceita} "
+        ]
+    }
   ],
   "types": []
 },
