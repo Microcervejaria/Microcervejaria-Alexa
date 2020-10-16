@@ -5,7 +5,12 @@
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "cancelar ação",
+            "cancela ação",
+            "cancela",
+            "cancelar"
+          ]
         },
         {
           "name": "AMAZON.HelpIntent",
@@ -55,9 +60,5 @@
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
         }
-      ],
-      "types": []
     }
-  },
-  "version": "2"
 }
