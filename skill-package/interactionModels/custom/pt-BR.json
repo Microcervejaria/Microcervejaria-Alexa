@@ -9,7 +9,17 @@
         },
         {
           "name": "AMAZON.HelpIntent",
-          "samples": []
+          "samples": [
+              "ajuda",
+              "como começar",
+              "quais opções",
+              "o que posso fazer",
+              "me ajude",
+              "ajuda",
+              "o que posso fazer ",
+              "quais são os comandos",
+              "help"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
