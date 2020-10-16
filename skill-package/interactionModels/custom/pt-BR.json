@@ -109,6 +109,19 @@
               "detalhes da receita {nomeReceita}",
               "{nomeReceita}"
           ]
+      },
+      {
+        "name": "statusLimpezaIntent",
+        "slots": [],
+        "samples": [
+            "Tempo para finalizar limpeza",
+            "Tempo para terminar limpeza",
+            "Status da limpeza",
+            "Status limpeza",
+            "Tempo para terminar a limpeza ",
+            "Quanto tempo falta para terminar a limpeza ",
+            "Qual status atual da limpeza "
+           ]
       }
   ],
   "types": []
