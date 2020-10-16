@@ -67,6 +67,19 @@
             "diga ola mundo",
             "diga ola"
           ]
-        }
+        },
+        {
+          "name": "ListarReceitasIntent",
+          "slots": [],
+          "samples": [
+            "quais são as receitas",
+            "me diga as receitas",
+            "lista de receitas",
+            "receitas",
+            "listar receita"
+          ]
+        },
+      ],
+      "types": []
     }
 }
