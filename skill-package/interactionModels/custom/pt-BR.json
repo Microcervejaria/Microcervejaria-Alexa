@@ -44,6 +44,18 @@
           ]
         },
         {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "voltar home",
+            "home",
+            "início",
+            "volte para o início",
+            "vai para home",
+            "volta para home",
+            "volta para página inicial"
+          ]
+        },
+        {
           "name": "OlaMundoIntent",
           "slots": [],
           "samples": [
@@ -55,10 +67,6 @@
             "diga ola mundo",
             "diga ola"
           ]
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
         }
     }
 }
