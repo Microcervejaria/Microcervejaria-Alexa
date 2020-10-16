@@ -1,58 +1,64 @@
 {
-    "interactionModel": {
-        "languageModel": {
-            "invocationName": "micro cervejaria",
-            "intents": [
-                {
-                    "name": "AMAZON.CancelIntent",
-                    "samples": [
-                        "cancelar ação",
-                        "cancela ação",
-                        "cancela",
-                        "cancelar"
-                    ]
-                },
-                {
-                    "name": "AMAZON.HelpIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.StopIntent",
-                    "samples": []
-                },
-                {
-                    "name": "HelloWorldIntent",
-                    "slots": [],
-                    "samples": [
-                        "hello",
-                        "how are you",
-                        "say hi world",
-                        "say hi",
-                        "hi",
-                        "say hello world",
-                        "say hello"
-                    ]
-                },
-                {
-                    "name": "AMAZON.NavigateHomeIntent",
-                    "samples": []
-                },
-                {
-                    "name": "OlaMundoIntent",
-                    "slots": [],
-                    "samples": [
-                        "ola mundo",
-                        "oi mundo",
-                        "diga ola",
-                        "diga ola mundo",
-                        "oi",
-                        "diga oi mundo",
-                        "como você esta",
-                        "ola"
-                    ]
-                }
-            ],
-            "types": []
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "cervejaria",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "cancelar ação",
+            "cancela ação",
+            "cancela",
+            "cancelar"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+              "ajuda",
+              "como começar",
+              "quais opções",
+              "o que posso fazer",
+              "me ajude",
+              "ajuda",
+              "o que posso fazer ",
+              "quais são os comandos",
+              "help"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "HelloWorldIntent",
+          "slots": [],
+          "samples": [
+            "hello",
+            "how are you",
+            "say hi world",
+            "say hi",
+            "hi",
+            "say hello world",
+            "say hello"
+          ]
+        },
+        {
+          "name": "OlaMundoIntent",
+          "slots": [],
+          "samples": [
+            "ola",
+            "como você esta",
+            "diga oi mundo",
+            "diga oi",
+            "oi",
+            "diga ola mundo",
+            "diga ola"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
         }
     }
 }
