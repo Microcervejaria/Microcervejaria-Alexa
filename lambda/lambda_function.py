@@ -52,19 +52,24 @@ class HelpIntentHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
-        
 
 
-class OlaMundoIntentHandler(AbstractRequestHandler):
+
+class ListarReceitasIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return ask_utils.is_intent_name("OlaMundoIntent")(handler_input)
+        return ask_utils.is_intent_name("ListarReceitasIntent")(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Oi Mundo, tudo bem ?"
+        speak_output = "Suas receitas são "
 
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
+        listaReceitas = response.json()
+        for cerveja in listaReceitas:
+            speak_output += cerveja["nome"] + ", "
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -159,7 +164,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(OlaMundoIntentHandler())
+sb.add_request_handler(ListarReceitasIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
