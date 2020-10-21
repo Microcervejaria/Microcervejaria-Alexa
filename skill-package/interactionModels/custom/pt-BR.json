@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "micro cervejaria",
+            "invocationName": "cervejaria",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
