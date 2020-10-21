@@ -1,189 +1,195 @@
 {
-  "interactionModel": {
-    "languageModel": {
-      "invocationName": "cervejaria",
-      "intents": [
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": [
-            "cancelar ação",
-            "cancela ação",
-            "cancela",
-            "cancelar"
-          ]
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "micro cervejaria",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "cancelar ação",
+                        "cancela ação",
+                        "cancela",
+                        "cancelar"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "ajuda",
+                        "como começar",
+                        "quais opções",
+                        "o que posso fazer",
+                        "me ajude",
+                        "ajuda",
+                        "o que posso fazer ",
+                        "quais são os comandos",
+                        "help"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "finalizar cervejaria",
+                        "sair da cervejaria",
+                        "sair",
+                        "parar cervejaria",
+                        "Parar",
+                        "Pare"
+                    ]
+                },
+                {
+                    "name": "HelloWorldIntent",
+                    "slots": [],
+                    "samples": [
+                        "hello",
+                        "how are you",
+                        "say hi world",
+                        "say hi",
+                        "hi",
+                        "say hello world",
+                        "say hello"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": [
+                        "voltar home",
+                        "home",
+                        "início",
+                        "volte para o início",
+                        "vai para home",
+                        "volta para home",
+                        "volta para página inicial"
+                    ]
+                },
+                {
+                    "name": "OlaMundoIntent",
+                    "slots": [],
+                    "samples": [
+                        "ola",
+                        "como você esta",
+                        "diga oi mundo",
+                        "diga oi",
+                        "oi",
+                        "diga ola mundo",
+                        "diga ola"
+                    ]
+                },
+                {
+                    "name": "ListarReceitasIntent",
+                    "slots": [],
+                    "samples": [
+                        "quais são as receitas",
+                        "me diga as receitas",
+                        "lista de receitas",
+                        "receitas",
+                        "listar receita"
+                    ]
+                },
+                {
+                    "name": "StatusProducaoIntent",
+                    "slots": [],
+                    "samples": [
+                        "andamento da produção",
+                        "como anda a produção",
+                        "status da produção",
+                        "Qual status da produção"
+                    ]
+                },
+                {
+                    "name": "detalharReceitaIntent",
+                    "slots": [
+                        {
+                            "name": "nomeReceita",
+                            "type": "AMAZON.Food",
+                            "samples": [
+                                "gostaria de saber sobre a receita {nomeReceita}",
+                                "gostaria de saber sobre a {nomeReceita}",
+                                "o nome da receite é {nomeReceita}",
+                                "{nomeReceita}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "como fazer a receita {nomeReceita}",
+                        "detalhar receita {nomeReceita}",
+                        "detalhes da receita {nomeReceita}",
+                        "{nomeReceita}"
+                    ]
+                },
+                {
+                    "name": "statusLimpezaIntent",
+                    "slots": [],
+                    "samples": [
+                        "Tempo para finalizar limpeza",
+                        "Tempo para terminar limpeza",
+                        "Status da limpeza",
+                        "Status limpeza",
+                        "Tempo para terminar a limpeza ",
+                        "Quanto tempo falta para terminar a limpeza ",
+                        "Qual status atual da limpeza "
+                    ]
+                },
+                {
+                    "name": "iniciarReceitaIntent",
+                    "slots": [
+                        {
+                            "name": "nomeReceita",
+                            "type": "AMAZON.Food"
+                        }
+                    ],
+                    "samples": [
+                        "faz a {nomeReceita}",
+                        "fazer {nomeReceita}",
+                        "começar a fazer {nomeReceita}",
+                        "iniciar {nomeReceita} ",
+                        "iniciar receita {nomeReceita} "
+                    ]
+                }
+            ],
+            "types": []
         },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": [
-              "ajuda",
-              "como começar",
-              "quais opções",
-              "o que posso fazer",
-              "me ajude",
-              "ajuda",
-              "o que posso fazer ",
-              "quais são os comandos",
-              "help"
-          ]
+        "dialog": {
+            "intents": [
+                {
+                    "name": "detalharReceitaIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "nomeReceita",
+                            "type": "AMAZON.Food",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.264625340776.932032867318",
+                                "elicitation": "Elicit.Slot.264625340776.932032867318"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
         },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "HelloWorldIntent",
-          "slots": [],
-          "samples": [
-            "hello",
-            "how are you",
-            "say hi world",
-            "say hi",
-            "hi",
-            "say hello world",
-            "say hello"
-          ]
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": [
-            "voltar home",
-            "home",
-            "início",
-            "volte para o início",
-            "vai para home",
-            "volta para home",
-            "volta para página inicial"
-          ]
-        },
-        {
-          "name": "OlaMundoIntent",
-          "slots": [],
-          "samples": [
-            "ola",
-            "como você esta",
-            "diga oi mundo",
-            "diga oi",
-            "oi",
-            "diga ola mundo",
-            "diga ola"
-          ]
-        },
-        {
-          "name": "ListarReceitasIntent",
-          "slots": [],
-          "samples": [
-            "quais são as receitas",
-            "me diga as receitas",
-            "lista de receitas",
-            "receitas",
-            "listar receita"
-          ]
-        },
-        {
-          "name": "StatusProducaoIntent",
-          "slots": [],
-          "samples": [
-              "andamento da produção",
-              "como anda a produção",
-              "status da produção",
-              "Qual status da produção"
-          ]
-      },
-        {
-          "name": "detalharReceitaIntent",
-          "slots": [
-              {
-                  "name": "nomeReceita",
-                  "type": "AMAZON.Food",
-                  "samples": [
-                      "gostaria de saber sobre a receita {nomeReceita}",
-                      "gostaria de saber sobre a {nomeReceita}",
-                      "o nome da receite é {nomeReceita}",
-                      "{nomeReceita}"
-                  ]
-              }
-          ],
-          "samples": [
-              "como fazer a receita {nomeReceita}",
-              "detalhar receita {nomeReceita}",
-              "detalhes da receita {nomeReceita}",
-              "{nomeReceita}"
-          ]
-      },
-      {
-        "name": "statusLimpezaIntent",
-        "slots": [],
-        "samples": [
-            "Tempo para finalizar limpeza",
-            "Tempo para terminar limpeza",
-            "Status da limpeza",
-            "Status limpeza",
-            "Tempo para terminar a limpeza ",
-            "Quanto tempo falta para terminar a limpeza ",
-            "Qual status atual da limpeza "
-           ]
-      },
-      {
-        "name": "iniciarReceitaIntent",
-        "slots": [
+        "prompts": [
             {
-                "name": "nomeReceita",
-                "type": "AMAZON.Food"
+                "id": "Confirm.Slot.264625340776.932032867318",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Você gostaria de saber informações da receita {nomeReceita} ?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.264625340776.932032867318",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Qual receita você gostaria de saber mais sobre ?"
+                    }
+                ]
             }
-        ],
-        "samples": [
-            "faz a {nomeReceita}",
-            "fazer {nomeReceita}",
-            "começar a fazer {nomeReceita}",
-            "receita{nomeReceita}",
-            "iniciar {nomeReceita} ",
-            "iniciar receita {nomeReceita} "
         ]
     }
-  ],
-  "types": []
-},
-"dialog": {
-  "intents": [
-      {
-          "name": "detalharReceitaIntent",
-          "confirmationRequired": false,
-          "prompts": {},
-          "slots": [
-              {
-                  "name": "nomeReceita",
-                  "type": "AMAZON.Food",
-                  "confirmationRequired": true,
-                  "elicitationRequired": true,
-                  "prompts": {
-                      "confirmation": "Confirm.Slot.264625340776.932032867318",
-                      "elicitation": "Elicit.Slot.264625340776.932032867318"
-                  }
-              }
-          ]
-      }
-  ],
-  "delegationStrategy": "ALWAYS"
-},
-"prompts": [
-  {
-      "id": "Confirm.Slot.264625340776.932032867318",
-      "variations": [
-          {
-              "type": "PlainText",
-              "value": "Você gostaria de saber informações da receita {nomeReceita} ?"
-          }
-      ]
-  },
-  {
-      "id": "Elicit.Slot.264625340776.932032867318",
-      "variations": [
-          {
-              "type": "PlainText",
-              "value": "Qual receita você gostaria de saber mais sobre ?"
-          }
-      ]
-  }
-]
-}
 }
