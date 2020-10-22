@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "cervejaria",
+            "invocationName": "micro cervejaria",
             "intents": [
                 {
                     "name": "AMAZON.CancelIntent",
@@ -145,6 +145,16 @@
                         "iniciar {nomeReceita} ",
                         "iniciar receita {nomeReceita} "
                     ]
+                },
+                {
+                    "name": "iniciarLimpezaIntent",
+                    "slots": [],
+                    "samples": [
+                        "limpeza",
+                        "inicializar limpeza",
+                        "iniciar limpeza",
+                        "limpar"
+                    ]
                 }
             ],
             "types": []
@@ -167,6 +177,14 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "iniciarLimpezaIntent",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1498161186511"
+                    },
+                    "slots": []
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -187,6 +205,15 @@
                     {
                         "type": "PlainText",
                         "value": "Qual receita você gostaria de saber mais sobre ?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1498161186511",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Deseja inicializar limpeza?"
                     }
                 ]
             }
