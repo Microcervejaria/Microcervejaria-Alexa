@@ -134,20 +134,69 @@
                     "name": "iniciarReceitaIntent",
                     "slots": [
                         {
-                            "name": "nomeReceita",
-                            "type": "AMAZON.Food"
+                            "name": "Receita",
+                            "type": "tipoCerveja"
                         }
                     ],
                     "samples": [
-                        "faz a {nomeReceita}",
-                        "fazer {nomeReceita}",
-                        "começar a fazer {nomeReceita}",
-                        "iniciar {nomeReceita} ",
-                        "iniciar receita {nomeReceita} "
+                        "fazer a receita {Receita}",
+                        "fazer a cerveja {Receita}",
+                        "faz a {Receita}",
+                        "fazer {Receita}",
+                        "começar a fazer {Receita}",
+                        "começar o processo de produção da cerveja {Receita}",
+                        "iniciar {Receita} ",
+                        "iniciar receita {Receita} "
                     ]
                 }
             ],
-            "types": []
+            "types": [
+                {
+                    "name": "tipoCerveja",
+                    "values": [
+                        {
+                            "name": {
+                                "value": " Double IPA"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "White IPA"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Rye IPA"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Red IPA"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Brown IPA "
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Black IPA "
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Belgian IPA"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "American IPA"
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         "dialog": {
             "intents": [
