@@ -78,8 +78,40 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
         )
+class IniciarReceitaIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("iniciarReceitaIntent")(handler_input)
 
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        slots = handler_input.request_envelope.request.intent.slots
+        pedido_receita = slots['Receita'].value
 
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
+        listaReceitas = response.json()
+        lista =[]
+        for cerveja in listaReceitas:
+            lista.append(cerveja["nome"].lower())   
+        if pedido_receita not in lista:
+            speak_output = "Você não possui esta receita em sua Micro cervejaria, se quiser pergunte por sua lista de receitas"
+        elif pedido_receita in lista:
+            cerveja_inicializar = pedido_receita
+            payload={'nomeReceita': cerveja_inicializar}
+            response = requests.post('https://api-homebeer.herokuapp.com/iniciar', headers=headers, data=payload)
+
+            re=response.json()
+            
+            speak_output = re['message']
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .response
+        )
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
@@ -167,6 +199,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
+sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
