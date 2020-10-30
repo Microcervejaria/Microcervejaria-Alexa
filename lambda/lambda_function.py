@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK for Python.
-# Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
-# session persistence, api calls, and more.
-# This sample is built using the handler classes approach in skill builder.
 import logging
 import ask_sdk_core.utils as ask_utils
 import requests
@@ -46,7 +40,7 @@ class HelpIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Você pode pedir para iniciar alguma receita, iniciar limpeza, listar as receitas, ou até mesmo detalhar alguma receitas  Podendo também indicar o tempo para fim de algum  processo, ou tempo para fim da limpeza"
+        speak_output = "Você pode pedir para iniciar alguma receita, iniciar limpeza, listar as receitas, ou até mesmo detalhar alguma receita  Podendo também indicar o tempo para fim de algum  processo, ou tempo para fim da limpeza"
 
         return (
             handler_input.response_builder
@@ -75,7 +69,7 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
         return (
             handler_input.response_builder
                 .speak(speak_output)
-                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .ask(speak_output)
                 .response
         )
 class IniciarReceitaIntentHandler(AbstractRequestHandler):
@@ -94,7 +88,7 @@ class IniciarReceitaIntentHandler(AbstractRequestHandler):
         listaReceitas = response.json()
         lista =[]
         for cerveja in listaReceitas:
-            lista.append(cerveja["nome"].lower())   
+            lista.append(cerveja["nome"].lower())
         if pedido_receita not in lista:
             speak_output = "Você não possui esta receita em sua Micro cervejaria, se quiser pergunte por sua lista de receitas"
         elif pedido_receita in lista:
@@ -103,13 +97,55 @@ class IniciarReceitaIntentHandler(AbstractRequestHandler):
             response = requests.post('https://api-homebeer.herokuapp.com/iniciar', headers=headers, data=payload)
 
             re=response.json()
-            
+
             speak_output = re['message']
 
         return (
             handler_input.response_builder
                 .speak(speak_output)
-                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .ask(speak_output)
+                .response
+        )
+
+class DetalharReceitaIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("detalharReceitaIntent")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        slots = handler_input.request_envelope.request.intent.slots
+        pedido_receita = slots['nomeReceita'].value
+
+        headers = {'Authorization': 'cervejaria'}
+        url = 'https://api-homebeer.herokuapp.com/receitas?nome_like=' + pedido_receita
+        response = requests.get(url, headers=headers)
+        receita = response.json()[0]
+        ingredientes = ""
+        for i in receita['Ingredientes']:
+            ingredientes += F"{i['nome']} {i['quantidade']} {i['unidadeMedida']}. "
+
+        brassagem = ""
+        for i in receita['brassagem']:
+            brassagem +=  F"{i['temperatura']} graus célsius, por {i['tempo']} minutos. "
+
+        fervura = ""
+        for i in receita['fervura']['ingredientes']:
+            fervura += F"{i['quantidade']} {i['unidadeMedida']} de {i['nome']} serão adicionados aos {i['tempo']} minutos. "
+
+        speak_output = F"""\
+        A cerveja {receita['nome']} é uma {receita['descricao']}. \
+        Seu tempo médio de produção é de {receita['tempoMedio']} minutos e produz {receita['quantidadeLitros']} litros. \
+        Os ingredientes utilizados são: {ingredientes}\
+        Durante sua fase de aquecimento, a cerveja é aquecida a uma temperatura de {receita['aquecimento']['temperatura']} graus célsius. \
+        Durante a brassagem, será realizado os seguintes degraus de aquecimento:  A temperatura vai ficar em {brassagem} \
+        A fervura vai durar um tempo total de {receita['fervura']['tempoTotal']} minutos. E os seguintes ingredientes vão ser adicionados: {fervura}\
+        """
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
                 .response
         )
 
@@ -200,6 +236,7 @@ sb = SkillBuilder()
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
+sb.add_request_handler(DetalharReceitaIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
