@@ -148,7 +148,15 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
-                    "slots": [],
+                    "slots": [
+                        {
+                            "name": "answer",
+                            "type": "types_ofs_anwers",
+                            "samples": [
+                                "{answer}"
+                            ]
+                        }
+                    ],
                     "samples": [
                         "limpeza",
                         "inicializar limpeza",
@@ -157,7 +165,23 @@
                     ]
                 }
             ],
-            "types": []
+            "types": [
+                {
+                    "name": "types_ofs_anwers",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "nao"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sim"
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         "dialog": {
             "intents": [
@@ -180,11 +204,19 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
-                    "confirmationRequired": true,
-                    "prompts": {
-                        "confirmation": "Confirm.Intent.1498161186511"
-                    },
-                    "slots": []
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "answer",
+                            "type": "types_ofs_anwers",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1260259449864.693584127577"
+                            }
+                        }
+                    ]
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -209,11 +241,11 @@
                 ]
             },
             {
-                "id": "Confirm.Intent.1498161186511",
+                "id": "Elicit.Slot.1260259449864.693584127577",
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "Deseja inicializar limpeza?"
+                        "value": "Deseja Realmente inicializar limpeza?"
                     }
                 ]
             }

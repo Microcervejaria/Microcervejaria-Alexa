@@ -79,7 +79,32 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
                 .response
         )
 
+class iniciarLimpezaIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("iniciarLimpezaIntent")(handler_input)
 
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speak_output = ""
+        slots = handler_input.request_envelope.request.intent.slots
+        pedido_resposta = slots['answer'].value
+
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
+        listaReceitas = response.json()
+        
+        if pedido_resposta == 'sim':
+            speak_output = listaReceitas["message"]
+        else:
+            speak_output = "limpeza nao iniciada"
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .response
+        )
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
@@ -167,6 +192,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
+sb.add_request_handler(iniciarLimpezaIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
