@@ -91,12 +91,11 @@ class iniciarLimpezaIntentHandler(AbstractRequestHandler):
         slots = handler_input.request_envelope.request.intent.slots
         pedido_resposta = slots['answer'].value
 
-        headers = {'Authorization': 'cervejaria'}
-        response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
-        listaReceitas = response.json()
-        
         if pedido_resposta == 'sim':
-            speak_output = listaReceitas["message"]
+            headers = {'Authorization': 'cervejaria'}
+            response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
+            serverResponse = response.json()
+            speak_output = serverResponse["message"]
         else:
             speak_output = "limpeza nao iniciada"
         return (
