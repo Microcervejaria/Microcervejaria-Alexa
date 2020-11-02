@@ -158,6 +158,16 @@
                         "iniciar limpeza",
                         "limpar"
                     ]
+                },
+                {
+                    "name": "PararProducaoIntent",
+                    "slots": [],
+                    "samples": [
+                        "Parar produção da cerveja",
+                        "Cancelar produção",
+                        "Parar processo",
+                        "Parar produção"
+                    ]
                 }
             ],
             "types": [
