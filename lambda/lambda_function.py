@@ -72,6 +72,7 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
+
 class IniciarReceitaIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
@@ -130,6 +131,7 @@ class iniciarLimpezaIntentHandler(AbstractRequestHandler):
             handler_input.response_builder
                 .speak(speak_output)
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
+        )
           
 class DetalharReceitaIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
