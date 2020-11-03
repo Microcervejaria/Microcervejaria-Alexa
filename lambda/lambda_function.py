@@ -108,7 +108,7 @@ class IniciarReceitaIntentHandler(AbstractRequestHandler):
                 .response
         )
 
-class iniciarLimpezaIntentHandler(AbstractRequestHandler):
+class IniciarLimpezaIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
@@ -127,12 +127,14 @@ class iniciarLimpezaIntentHandler(AbstractRequestHandler):
             speak_output = serverResponse["message"]
         else:
             speak_output = "limpeza nao iniciada"
+            
         return (
             handler_input.response_builder
                 .speak(speak_output)
-                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .ask(speak_output)
+                .response
         )
-          
+
 class DetalharReceitaIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
@@ -261,7 +263,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
-sb.add_request_handler(iniciarLimpezaIntentHandler())
+sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(DetalharReceitaIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
