@@ -166,6 +166,23 @@
                         "iniciar limpeza",
                         "limpar"
                     ]
+                },
+                {
+                    "name": "adicionarTokenIntent",
+                    "slots": [
+                        {
+                            "name": "token",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "fazer login",
+                        "logar",
+                        "autenticar",
+                        "Token",
+                        "Autenticar na aplicação",
+                        "Adicionar token"
+                    ]
                 }
             ],
             "types": [
@@ -252,16 +269,27 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
+
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1498161186511"
+                    },
+                    "slots": []
+                },
+                {
+                    "name": "adicionarTokenIntent",
+
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
                         {
-                            "name": "answer",
-                            "type": "types_ofs_anwers",
+
+                            "name": "token",
+                            "type": "AMAZON.SearchQuery",
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
-                                "elicitation": "Elicit.Slot.1260259449864.693584127577"
+                                "elicitation": "Elicit.Slot.587748034064.558237133285"
                             }
                         }
                     ]
@@ -294,6 +322,15 @@
                     {
                         "type": "PlainText",
                         "value": "Deseja Realmente inicializar limpeza?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.587748034064.558237133285",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Informe o Token que se encontra na sua microcervejaria"
                     }
                 ]
             }
