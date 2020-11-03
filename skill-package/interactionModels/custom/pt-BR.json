@@ -168,6 +168,16 @@
                     ]
                 },
                 {
+                    "name": "PararProducaoIntent",
+                    "slots": [],
+                    "samples": [
+                        "Parar produção da cerveja",
+                        "Cancelar produção",
+                        "Parar processo",
+                        "Parar produção"
+                    ]
+                },
+                {
                     "name": "adicionarTokenIntent",
                     "slots": [
                         {
@@ -269,16 +279,22 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
-
-                    "confirmationRequired": true,
-                    "prompts": {
-                        "confirmation": "Confirm.Intent.1498161186511"
-                    },
-                    "slots": []
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "answer",
+                            "type": "types_ofs_anwers",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1260259449864.693584127577"
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "adicionarTokenIntent",
-
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
