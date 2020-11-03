@@ -158,6 +158,23 @@
                         "iniciar limpeza",
                         "limpar"
                     ]
+                },
+                {
+                    "name": "adicionarTokenIntent",
+                    "slots": [
+                        {
+                            "name": "token",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "fazer login",
+                        "logar",
+                        "autenticar",
+                        "Token",
+                        "Autenticar na aplicação",
+                        "Adicionar token"
+                    ]
                 }
             ],
             "types": [
@@ -234,6 +251,22 @@
                         "confirmation": "Confirm.Intent.1498161186511"
                     },
                     "slots": []
+                },
+                {
+                    "name": "adicionarTokenIntent",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "token",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.587748034064.558237133285"
+                            }
+                        }
+                    ]
                 }
             ],
             "delegationStrategy": "ALWAYS"
@@ -263,6 +296,15 @@
                     {
                         "type": "PlainText",
                         "value": "Deseja inicializar limpeza?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.587748034064.558237133285",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Informe o Token que se encontra na sua microcervejaria"
                     }
                 ]
             }
