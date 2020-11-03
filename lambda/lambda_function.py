@@ -176,6 +176,51 @@ class DetalharReceitaIntentHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
+class visualizarProcessotHandler(AbstractRequestHandler):
+    """Handler for Skill Launch."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("visualizarProcessoIntet")(handler_input)
+
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        slots = handler_input.request_envelope.request.intent.slots
+        etapa = slots['processo'].value
+
+
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.get('https://api-homebeer.herokuapp.com/processo/{}'.format(etapa), headers=headers)
+        processo = response.json()
+
+        fala_a=''
+        fala_b=''
+
+        if etapa== 'brassagem':
+            qnt_degrais_temperatura = len(processo['etapas'])
+            fala_a = 'No processo de '+etapa+' encontrei '+ str(qnt_degrais_temperatura)+' degrais de temperaturas. Sendo que se atinja as temperaturas de ' 
+
+            for i in range(len(processo['etapas'])):
+                fala_b+= processo['etapas'][i]['temperatura'] +' graus célsios aplicados por '+ processo['etapas'][i]['tempo']+' minutos ,e '
+            fala_final=fala_a+ fala_b[:-2]
+
+        elif etapa == 'aquecimento':
+            fala_final= 'No processo de '+ etapa + ' é necessário com que aqueceça o mosto até atingir a temperatura de '+processo['etapas'][0]['temperatura']+' graus célsios'
+        elif etapa == 'fervura':
+            fala_a = "No processo de "+ etapa+' é necessário inserir os seguintes ingredientes '
+            for ingrediente in processo['etapas'][0]['ingredientes']:
+                fala_b+=ingrediente['quantidade']+' '+ingrediente['unidadeMedida']+' da levedura ' +ingrediente['nome']+' no minuto '+ingrediente['tempo'] +' ,e '
+            fala_final= fala_a +fala_b[:-2]
+        else:
+            fala_final= "No precesso processamos"
+
+        speak_output=fala_final
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
@@ -264,6 +309,7 @@ sb = SkillBuilder()
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
 sb.add_request_handler(IniciarLimpezaIntentHandler())
+sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(DetalharReceitaIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
