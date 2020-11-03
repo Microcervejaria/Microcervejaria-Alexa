@@ -101,7 +101,7 @@
                     "slots": [
                         {
                             "name": "nomeReceita",
-                            "type": "AMAZON.Food",
+                            "type": "tipoCerveja",
                             "samples": [
                                 "gostaria de saber sobre a receita {nomeReceita}",
                                 "gostaria de saber sobre a {nomeReceita}",
@@ -111,9 +111,9 @@
                         }
                     ],
                     "samples": [
-                        "como fazer a receita {nomeReceita}",
-                        "detalhar receita {nomeReceita}",
-                        "detalhes da receita {nomeReceita}",
+                        "como fazer a {nomeReceita}",
+                        "detalhar {nomeReceita}",
+                        "detalhes da {nomeReceita}",
                         "{nomeReceita}"
                     ]
                 },
@@ -193,6 +193,20 @@
                         "Autenticar na aplicação",
                         "Adicionar token"
                     ]
+                },
+                {
+                    "name": "visualizarProcessoIntet",
+                    "slots": [
+                        {
+                            "name": "processo",
+                            "type": "processos"
+                        }
+                    ],
+                    "samples": [
+                        "o que foi feito na {processo}",
+                        "sobre o processo de {processo}",
+                        "o que aconteceu no processo {processo}"
+                    ]
                 }
             ],
             "types": [
@@ -255,6 +269,26 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "processos",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "aquecimento"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fervura"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "brassagem"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -267,7 +301,7 @@
                     "slots": [
                         {
                             "name": "nomeReceita",
-                            "type": "AMAZON.Food",
+                            "type": "tipoCerveja",
                             "confirmationRequired": true,
                             "elicitationRequired": true,
                             "prompts": {
@@ -299,7 +333,6 @@
                     "prompts": {},
                     "slots": [
                         {
-
                             "name": "token",
                             "type": "AMAZON.SearchQuery",
                             "confirmationRequired": false,
