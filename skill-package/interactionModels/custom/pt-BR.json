@@ -151,7 +151,15 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
-                    "slots": [],
+                    "slots": [
+                        {
+                            "name": "answer",
+                            "type": "types_ofs_anwers",
+                            "samples": [
+                                "{answer}"
+                            ]
+                        }
+                    ],
                     "samples": [
                         "limpeza",
                         "inicializar limpeza",
@@ -222,6 +230,21 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "types_ofs_anwers",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "nao"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sim"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -246,6 +269,7 @@
                 },
                 {
                     "name": "iniciarLimpezaIntent",
+
                     "confirmationRequired": true,
                     "prompts": {
                         "confirmation": "Confirm.Intent.1498161186511"
@@ -254,10 +278,12 @@
                 },
                 {
                     "name": "adicionarTokenIntent",
+
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
                         {
+
                             "name": "token",
                             "type": "AMAZON.SearchQuery",
                             "confirmationRequired": false,
@@ -291,11 +317,11 @@
                 ]
             },
             {
-                "id": "Confirm.Intent.1498161186511",
+                "id": "Elicit.Slot.1260259449864.693584127577",
                 "variations": [
                     {
                         "type": "PlainText",
-                        "value": "Deseja inicializar limpeza?"
+                        "value": "Deseja Realmente inicializar limpeza?"
                     }
                 ]
             },
