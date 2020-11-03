@@ -101,7 +101,7 @@
                     "slots": [
                         {
                             "name": "nomeReceita",
-                            "type": "AMAZON.Food",
+                            "type": "tipoCerveja",
                             "samples": [
                                 "gostaria de saber sobre a receita {nomeReceita}",
                                 "gostaria de saber sobre a {nomeReceita}",
@@ -111,9 +111,9 @@
                         }
                     ],
                     "samples": [
-                        "como fazer a receita {nomeReceita}",
-                        "detalhar receita {nomeReceita}",
-                        "detalhes da receita {nomeReceita}",
+                        "como fazer a {nomeReceita}",
+                        "detalhar {nomeReceita}",
+                        "detalhes da {nomeReceita}",
                         "{nomeReceita}"
                     ]
                 },
@@ -301,7 +301,7 @@
                     "slots": [
                         {
                             "name": "nomeReceita",
-                            "type": "AMAZON.Food",
+                            "type": "tipoCerveja",
                             "confirmationRequired": true,
                             "elicitationRequired": true,
                             "prompts": {
