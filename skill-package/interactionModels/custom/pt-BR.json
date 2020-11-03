@@ -193,6 +193,20 @@
                         "Autenticar na aplicação",
                         "Adicionar token"
                     ]
+                },
+                {
+                    "name": "visualizarProcessoIntet",
+                    "slots": [
+                        {
+                            "name": "processo",
+                            "type": "processos"
+                        }
+                    ],
+                    "samples": [
+                        "o que foi feito na {processo}",
+                        "sobre o processo de {processo}",
+                        "o que aconteceu no processo {processo}"
+                    ]
                 }
             ],
             "types": [
@@ -255,6 +269,26 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "processos",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "aquecimento"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fervura"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "brassagem"
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -299,7 +333,6 @@
                     "prompts": {},
                     "slots": [
                         {
-
                             "name": "token",
                             "type": "AMAZON.SearchQuery",
                             "confirmationRequired": false,
