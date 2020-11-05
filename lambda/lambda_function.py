@@ -127,7 +127,7 @@ class IniciarLimpezaIntentHandler(AbstractRequestHandler):
             speak_output = serverResponse["message"]
         else:
             speak_output = "limpeza nao iniciada"
-            
+
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -151,7 +151,7 @@ class DetalharReceitaIntentHandler(AbstractRequestHandler):
         response = requests.get(url, headers=headers)
         receita = response.json()[0]
         ingredientes = ""
-        for i in receita['Ingredientes']:
+        for i in receita['ingredientes']:
             ingredientes += F"{i['nome']} {i['quantidade']} {i['unidadeMedida']}. "
 
         brassagem = ""
@@ -198,21 +198,21 @@ class visualizarProcessotHandler(AbstractRequestHandler):
 
         if etapa== 'brassagem':
             qnt_degrais_temperatura = len(processo['etapas'])
-            fala_a = 'No processo de '+etapa+' encontrei '+ str(qnt_degrais_temperatura)+' degrais de temperaturas. Sendo que se atinja as temperaturas de ' 
+            fala_a = 'No processo de '+etapa+' encontrei '+ str(qnt_degrais_temperatura)+' degrais de temperatura. O mosto será aquecido a uma temperatura de '
 
             for i in range(len(processo['etapas'])):
-                fala_b+= processo['etapas'][i]['temperatura'] +' graus célsios aplicados por '+ processo['etapas'][i]['tempo']+' minutos ,e '
+                fala_b+= processo['etapas'][i]['temperatura'] +' graus célsius por '+ processo['etapas'][i]['tempo']+' minutos, '
             fala_final=fala_a+ fala_b[:-2]
 
         elif etapa == 'aquecimento':
-            fala_final= 'No processo de '+ etapa + ' é necessário com que aqueceça o mosto até atingir a temperatura de '+processo['etapas'][0]['temperatura']+' graus célsios'
+            fala_final= 'No processo de '+ etapa + ' o mosto será aquecido a uma temperatura de '+processo['etapas'][0]['temperatura']+' graus célsius.'
         elif etapa == 'fervura':
-            fala_a = "No processo de "+ etapa+' é necessário inserir os seguintes ingredientes '
+            fala_a = "No processo de "+ etapa+' é necessário inserir os seguintes ingredientes: '
             for ingrediente in processo['etapas'][0]['ingredientes']:
-                fala_b+=ingrediente['quantidade']+' '+ingrediente['unidadeMedida']+' da levedura ' +ingrediente['nome']+' no minuto '+ingrediente['tempo'] +' ,e '
+                fala_b+=ingrediente['quantidade']+' '+ingrediente['unidadeMedida']+' de ' +ingrediente['nome']+' aos '+ingrediente['tempo'] +' minutos, '
             fala_final= fala_a +fala_b[:-2]
         else:
-            fala_final= "No precesso processamos"
+            fala_final= "Não foi encontrado um processo com este nome, os processos disponíveis são: brassagem, aquecimento e fervura."
 
         speak_output=fala_final
         return (
