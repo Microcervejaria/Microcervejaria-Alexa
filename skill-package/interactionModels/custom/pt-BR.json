@@ -207,6 +207,22 @@
                         "sobre o processo de {processo}",
                         "o que aconteceu no processo {processo}"
                     ]
+                },
+                {
+                    "name": "lerTempoRestante",
+                    "slots": [],
+                    "samples": [
+                        "Falta quanto tempo para acabar",
+                        "Já tá acabando",
+                        "Quanto tempo falta para finalizar",
+                        "Tempo restante",
+                        "Tempo para acabar",
+                        "Quanto tempo falta para terminar",
+                        "tempo para acabar processo",
+                        "tempo restante do processo",
+                        "qual tempo restante",
+                        "quanto tempo falta"
+                    ]
                 }
             ],
             "types": [
