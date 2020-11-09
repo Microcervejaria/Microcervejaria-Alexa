@@ -221,7 +221,7 @@ class visualizarProcessotHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
-
+    
 class VisualizarProcessoAtualHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
     def can_handle(self, handler_input):
@@ -233,10 +233,10 @@ class VisualizarProcessoAtualHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         
         headers = {'Authorization': 'cervejaria'}
-        response = requests.get('https://api-homebeer.herokuapp.com/processo/'.format(etapa), headers=headers)
+        response = requests.get('https://api-homebeer.herokuapp.com/processo/', headers=headers)
         processo = response.json()
-        fala1 = "A cervejaria se encontra no processo de " + processo["processo"]
-        speak_output
+        fala1 = "A cervejaria se encontra no processo de "+str(processo["processo"])+ " . O tempo decorrido do processo atual é de "+str(processo["tempoAtual"])+" Minutos. O Tempo Restante para o término deste processo é de " +str(processo["tempoRestante"])+ " Minutos. A temperatura Atual é de "+ str(processo["temperaturaAtual"])+ " graus."
+        speak_output = fala1
         return (
             handler_input.response_builder
                 .speak(speak_output)
