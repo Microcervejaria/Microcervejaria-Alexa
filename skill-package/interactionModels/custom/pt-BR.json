@@ -207,6 +207,15 @@
                         "sobre o processo de {processo}",
                         "o que aconteceu no processo {processo}"
                     ]
+                },
+                {
+                    "name": "visualizarProcessoAtual",
+                    "slots": [],
+                    "samples": [
+                        "qual processo esta",
+                        "qual o processo que esta acontecente",
+                        "qual o processo atual"
+                    ]
                 }
             ],
             "types": [

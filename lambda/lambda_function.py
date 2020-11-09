@@ -222,6 +222,28 @@ class visualizarProcessotHandler(AbstractRequestHandler):
                 .response
         )
 
+class VisualizarProcessoAtualHandler(AbstractRequestHandler):
+    """Handler for Skill Launch."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("visualizarProcessoAtual")(handler_input)
+
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.get('https://api-homebeer.herokuapp.com/processo/'.format(etapa), headers=headers)
+        processo = response.json()
+        fala1 = "A cervejaria se encontra no processo de " + processo["processo"]
+        speak_output
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
+
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
     def can_handle(self, handler_input):
@@ -312,6 +334,7 @@ sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(DetalharReceitaIntentHandler())
+sb.add_request_handler(VisualizarProcessoAtualHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
