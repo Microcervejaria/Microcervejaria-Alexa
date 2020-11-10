@@ -207,6 +207,17 @@
                         "sobre o processo de {processo}",
                         "o que aconteceu no processo {processo}"
                     ]
+                },
+                {
+                    "name": "temperaturaAtual",
+                    "slots": [],
+                    "samples": [
+                        "temperatura atual",
+                        "que temperatura está",
+                        "qual temperatura ",
+                        "qual temperatura atual do sistema",
+                        "qual a temperatura atual "
+                    ]
                 }
             ],
             "types": [
