@@ -221,6 +221,39 @@ class visualizarProcessotHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
+    
+class lerTempoRestanteHandler(AbstractRequestHandler):
+    """Handler for Skill Launch."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("lerTempoRestante")(handler_input)
+
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+
+        headers = {'Authorization': 'cervejaria'}
+        response = requests.get('https://api-homebeer.herokuapp.com/processo/', headers=headers)
+        processo = response.json()
+        output = ''
+        if processo['processo'] == 'aquecimento':
+            output = 'Para o fim do processo faltam ' +processo['tempoRestante']+' minutos. O mosto deve ser aquecido a '+processo['etapas'][0]['temperatura']+' graus. E no momento a temperatura atinge '+processo['temperaturaAtual']+' graus'
+        elif processo['processo'] == 'brassagem':
+            output = 'Para o fim do processo faltam ' +processo['tempoRestante']+' minutos. O mosto deve ser aquecido a '+processo['etapas'][1]['temperatura']+' graus. E no momento a temperatura atinge '+processo['temperaturaAtual']+' graus'
+        elif processo['processo'] == 'fervura':
+            output = 'Para o fim do processo faltam ' +processo['tempoRestante']+' minutos. Certifique-se que adicionou ' 
+            for ingrediente in processo['etapas'][0]['ingredientes']:
+                speak_output += ingrediente['quantidade']+ ' gramas de ' +ingrediente['nome']+ ' no tempo de ' +ingrediente['tempo']+ ' Minutos. '
+        else:
+            output = 'Nenhum Processo em andamento'
+            
+        speak_output = output
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
 
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
@@ -312,6 +345,7 @@ sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(DetalharReceitaIntentHandler())
+sb.add_request_handler(lerTempoRestanteHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
