@@ -2,6 +2,7 @@ import logging
 import ask_sdk_core.utils as ask_utils
 import requests
 import json
+import boto3
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler
@@ -10,9 +11,29 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
+from ask_sdk_core.skill_builder import CustomSkillBuilder
+from ask_sdk_dynamodb.adapter import DynamoDbAdapter, user_id_partition_keygen
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+boto_sts=boto3.client('sts')
+stsresponse = boto_sts.assume_role(
+    RoleArn="arn:aws:iam::377210172353:role/HomeBeer",
+    RoleSessionName='HomeBeer')
+
+newsession_id = stsresponse["Credentials"]["AccessKeyId"]
+newsession_key = stsresponse["Credentials"]["SecretAccessKey"]
+newsession_token = stsresponse["Credentials"]["SessionToken"]
+
+ddb2 = boto3.resource(
+    'dynamodb',
+    region_name='us-east-1',
+    aws_access_key_id=newsession_id,
+    aws_secret_access_key=newsession_key,
+    aws_session_token=newsession_token)
+
+db = DynamoDbAdapter(table_name="HomeBeer", partition_key_name="token",partition_keygen=user_id_partition_keygen,dynamodb_resource=ddb2)
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -49,6 +70,27 @@ class HelpIntentHandler(AbstractRequestHandler):
                 .response
         )
 
+
+class OlaMundoIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("OlaMundoIntent")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        try:
+            table = ddb2.Table('HomeBeer')
+            token = table.scan()
+            speak_output = str(token)
+        except Exception as e:
+            speak_output = str(e)
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
 
 
 class ListarReceitasIntentHandler(AbstractRequestHandler):
@@ -308,6 +350,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
+sb.add_request_handler(OlaMundoIntentHandler())
 sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
@@ -317,6 +360,6 @@ sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
 sb.add_request_handler(IntentReflectorHandler()) # make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
 
-sb.add_exception_handler(CatchAllExceptionHandler())
+# sb.add_exception_handler(CatchAllExceptionHandler())
 
 lambda_handler = sb.lambda_handler()
