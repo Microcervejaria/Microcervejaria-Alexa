@@ -50,6 +50,31 @@ class HelpIntentHandler(AbstractRequestHandler):
         )
 
 
+class temperaturaAtualHandler(AbstractRequestHandler):
+    """Handler for Help Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("temperaturaAtual")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        
+        headers = {'Authorization': 'cervejaria'}
+
+        response = requests.get('https://api-homebeer.herokuapp.com/processo', headers=headers)
+
+        etapa=response.json()
+        fala = 'Atualmente a micro cervejaria se encontra no  processo de '  +etapa['processo']+' ,com uma temperatura atual de '+ etapa['temperaturaAtual']+' graus Célsius'
+
+        speak_output = fala
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
+
 
 class ListarReceitasIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
@@ -330,6 +355,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
+sb.add_request_handler(temperaturaAtualHandler())
 sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())

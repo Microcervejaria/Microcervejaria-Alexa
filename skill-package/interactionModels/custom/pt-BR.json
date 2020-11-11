@@ -209,12 +209,23 @@
                     ]
                 },
                 {
-                    "name": "visualizarProcessoAtual",
+                    "name": "temperaturaAtual",
                     "slots": [],
                     "samples": [
-                        "qual processo esta",
-                        "qual o processo que esta acontecendo",
-                        "qual o processo atual"
+                        "temperatura atual",
+                        "que temperatura está",
+                        "qual temperatura ",
+                        "qual temperatura atual do sistema",
+                        "qual a temperatura atual "
+                    ]
+                },
+                {
+                  "name": "visualizarProcessoAtual",
+                  "slots": [],
+                  "samples": [
+                      "qual processo esta",
+                      "qual o processo que esta acontecendo",
+                      "qual o processo atual"
                     ]
                 }
             ],
