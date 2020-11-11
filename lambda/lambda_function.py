@@ -13,6 +13,7 @@ from ask_sdk_model import Response
 
 from ask_sdk_core.skill_builder import CustomSkillBuilder
 from ask_sdk_dynamodb.adapter import DynamoDbAdapter, user_id_partition_keygen
+from boto3.dynamodb.conditions import Key, Attr
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -33,7 +34,15 @@ ddb2 = boto3.resource(
     aws_secret_access_key=newsession_key,
     aws_session_token=newsession_token)
 
-db = DynamoDbAdapter(table_name="HomeBeer", partition_key_name="token",partition_keygen=user_id_partition_keygen,dynamodb_resource=ddb2)
+db = DynamoDbAdapter(table_name="Cervejaria", partition_key_name="id",partition_keygen=user_id_partition_keygen,dynamodb_resource=ddb2)
+
+userID = '1'
+table = ddb2.Table('Cervejaria')
+response = table.query(
+KeyConditionExpression=Key('id').eq(userID)
+)
+query = response['Items'][0]
+chave = query['APIToken']
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -71,18 +80,33 @@ class HelpIntentHandler(AbstractRequestHandler):
         )
 
 
-class OlaMundoIntentHandler(AbstractRequestHandler):
-    """Handler for Hello World Intent."""
+class adicionarTokenIntentHandler(AbstractRequestHandler):
+    """Handler para Adicionar Token."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return ask_utils.is_intent_name("OlaMundoIntent")(handler_input)
+        return ask_utils.is_intent_name("adicionarTokenIntent")(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        slots = handler_input.request_envelope.request.intent.slots
+        userToken = slots['token'].value
         try:
-            table = ddb2.Table('HomeBeer')
-            token = table.scan()
-            speak_output = str(token)
+            # if not 'token' in teste:
+            #     speak_output = 'Não existe token adicionado'
+            # else:
+            #     token = teste['token']
+            #     speak_output = token
+            table.update_item(
+                Key={
+                    'id': userID
+                },
+                UpdateExpression='SET APIToken = :val1',
+                ExpressionAttributeValues={
+                    ':val1': userToken
+                }
+            )
+            speak_output = "Obrigado, o token: " + userToken + " foi adicionado com sucesso!"
+
         except Exception as e:
             speak_output = str(e)
         return (
@@ -101,9 +125,17 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        if not 'APIToken' in query:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+            return (
+        handler_input.response_builder
+            .speak(speak_output)
+            .ask(speak_output)
+            .response
+        )
         speak_output = "Suas receitas são "
 
-        headers = {'Authorization': 'cervejaria'}
+        headers = {'Authorization': chave}
         response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
         listaReceitas = response.json()
         for cerveja in listaReceitas:
@@ -126,7 +158,7 @@ class IniciarReceitaIntentHandler(AbstractRequestHandler):
         slots = handler_input.request_envelope.request.intent.slots
         pedido_receita = slots['Receita'].value
 
-        headers = {'Authorization': 'cervejaria'}
+        headers = {'Authorization': chave}
         response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
         listaReceitas = response.json()
         lista =[]
@@ -163,7 +195,7 @@ class IniciarLimpezaIntentHandler(AbstractRequestHandler):
         pedido_resposta = slots['answer'].value
 
         if pedido_resposta == 'sim':
-            headers = {'Authorization': 'cervejaria'}
+            headers = {'Authorization': chave}
             response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
             serverResponse = response.json()
             speak_output = serverResponse["message"]
@@ -188,7 +220,7 @@ class DetalharReceitaIntentHandler(AbstractRequestHandler):
         slots = handler_input.request_envelope.request.intent.slots
         pedido_receita = slots['nomeReceita'].value
 
-        headers = {'Authorization': 'cervejaria'}
+        headers = {'Authorization': chave}
         url = 'https://api-homebeer.herokuapp.com/receitas?nome_like=' + pedido_receita
         response = requests.get(url, headers=headers)
         receita = response.json()[0]
@@ -231,7 +263,7 @@ class visualizarProcessotHandler(AbstractRequestHandler):
         etapa = slots['processo'].value
 
 
-        headers = {'Authorization': 'cervejaria'}
+        headers = {'Authorization': chave}
         response = requests.get('https://api-homebeer.herokuapp.com/processo/{}'.format(etapa), headers=headers)
         processo = response.json()
 
@@ -350,7 +382,7 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
-sb.add_request_handler(OlaMundoIntentHandler())
+sb.add_request_handler(adicionarTokenIntentHandler())
 sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
