@@ -116,6 +116,38 @@ class adicionarTokenIntentHandler(AbstractRequestHandler):
                 .response
         )
 
+class temperaturaAtualHandler(AbstractRequestHandler):
+    """Handler for Help Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("temperaturaAtual")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+                # type: (HandlerInput) -> Response
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+        else:
+            chave = query['APIToken']
+
+            headers = {'Authorization': chave}
+
+            response = requests.get('https://api-homebeer.herokuapp.com/processo', headers=headers)
+
+            etapa=response.json()
+            fala = 'Atualmente a micro cervejaria se encontra no  processo de '  +etapa['processo']+' ,com uma temperatura atual de '+ etapa['temperaturaAtual']+' graus Célsius'
+
+            speak_output = fala
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
 
 class ListarReceitasIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
@@ -328,6 +360,35 @@ class visualizarProcessotHandler(AbstractRequestHandler):
                 .response
         )
 
+class VisualizarProcessoAtualHandler(AbstractRequestHandler):
+    """Handler for Skill Launch."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("visualizarProcessoAtual")(handler_input)
+
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+        else:
+            chave = query['APIToken']
+            headers = {'Authorization': chave}
+            response = requests.get('https://api-homebeer.herokuapp.com/processo/', headers=headers)
+            processo = response.json()
+            fala1 = "A cervejaria se encontra no processo de "+str(processo["processo"])+ " . O tempo decorrido do processo atual é de "+str(processo["tempoAtual"])+" Minutos. O Tempo Restante para o término deste processo é de " +str(processo["tempoRestante"])+ " Minutos. A temperatura Atual é de "+ str(processo["temperaturaAtual"])+ " graus."
+            speak_output = fala1
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .ask(speak_output)
+                .response
+        )
+
 class CancelOrStopIntentHandler(AbstractRequestHandler):
     """Single handler for Cancel and Stop Intent."""
     def can_handle(self, handler_input):
@@ -415,10 +476,12 @@ sb = SkillBuilder()
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(ListarReceitasIntentHandler())
 sb.add_request_handler(adicionarTokenIntentHandler())
+sb.add_request_handler(temperaturaAtualHandler())
 sb.add_request_handler(IniciarLimpezaIntentHandler())
 sb.add_request_handler(visualizarProcessotHandler())
 sb.add_request_handler(IniciarReceitaIntentHandler())
 sb.add_request_handler(DetalharReceitaIntentHandler())
+sb.add_request_handler(VisualizarProcessoAtualHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
