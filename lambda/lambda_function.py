@@ -125,21 +125,21 @@ class ListarReceitasIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        if not 'APIToken' in query:
-            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
-            return (
-        handler_input.response_builder
-            .speak(speak_output)
-            .ask(speak_output)
-            .response
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
         )
-        speak_output = "Suas receitas são "
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+        else:
+            chave = query['APIToken']
+            speak_output = "Suas receitas são "
 
-        headers = {'Authorization': chave}
-        response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
-        listaReceitas = response.json()
-        for cerveja in listaReceitas:
-            speak_output += cerveja["nome"] + ", "
+            headers = {'Authorization': chave}
+            response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
+            listaReceitas = response.json()
+            for cerveja in listaReceitas:
+                speak_output += cerveja["nome"] + ", "
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -155,25 +155,33 @@ class IniciarReceitaIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        slots = handler_input.request_envelope.request.intent.slots
-        pedido_receita = slots['Receita'].value
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+        else:
+            chave = query['APIToken']
+            slots = handler_input.request_envelope.request.intent.slots
+            pedido_receita = slots['Receita'].value
 
-        headers = {'Authorization': chave}
-        response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
-        listaReceitas = response.json()
-        lista =[]
-        for cerveja in listaReceitas:
-            lista.append(cerveja["nome"].lower())
-        if pedido_receita not in lista:
-            speak_output = "Você não possui esta receita em sua Micro cervejaria, se quiser pergunte por sua lista de receitas"
-        elif pedido_receita in lista:
-            cerveja_inicializar = pedido_receita
-            payload={'nomeReceita': cerveja_inicializar}
-            response = requests.post('https://api-homebeer.herokuapp.com/iniciar', headers=headers, data=payload)
+            headers = {'Authorization': chave}
+            response = requests.get('https://api-homebeer.herokuapp.com/receitas', headers=headers)
+            listaReceitas = response.json()
+            lista =[]
+            for cerveja in listaReceitas:
+                lista.append(cerveja["nome"].lower())
+            if pedido_receita not in lista:
+                speak_output = "Você não possui esta receita em sua Micro cervejaria, se quiser pergunte por sua lista de receitas"
+            elif pedido_receita in lista:
+                cerveja_inicializar = pedido_receita
+                payload={'nomeReceita': cerveja_inicializar}
+                response = requests.post('https://api-homebeer.herokuapp.com/iniciar', headers=headers, data=payload)
 
-            re=response.json()
+                re=response.json()
 
-            speak_output = re['message']
+                speak_output = re['message']
 
         return (
             handler_input.response_builder
@@ -190,17 +198,25 @@ class IniciarLimpezaIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = ""
-        slots = handler_input.request_envelope.request.intent.slots
-        pedido_resposta = slots['answer'].value
-
-        if pedido_resposta == 'sim':
-            headers = {'Authorization': chave}
-            response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
-            serverResponse = response.json()
-            speak_output = serverResponse["message"]
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
         else:
-            speak_output = "limpeza nao iniciada"
+            chave = query['APIToken']
+            speak_output = ""
+            slots = handler_input.request_envelope.request.intent.slots
+            pedido_resposta = slots['answer'].value
+
+            if pedido_resposta == 'sim':
+                headers = {'Authorization': chave}
+                response = requests.post('https://api-homebeer.herokuapp.com/limpeza', headers=headers)
+                serverResponse = response.json()
+                speak_output = serverResponse["message"]
+            else:
+                speak_output = "limpeza nao iniciada"
 
         return (
             handler_input.response_builder
@@ -217,33 +233,41 @@ class DetalharReceitaIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        slots = handler_input.request_envelope.request.intent.slots
-        pedido_receita = slots['nomeReceita'].value
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
+        else:
+            chave = query['APIToken']
+            slots = handler_input.request_envelope.request.intent.slots
+            pedido_receita = slots['nomeReceita'].value
 
-        headers = {'Authorization': chave}
-        url = 'https://api-homebeer.herokuapp.com/receitas?nome_like=' + pedido_receita
-        response = requests.get(url, headers=headers)
-        receita = response.json()[0]
-        ingredientes = ""
-        for i in receita['ingredientes']:
-            ingredientes += F"{i['nome']} {i['quantidade']} {i['unidadeMedida']}. "
+            headers = {'Authorization': chave}
+            url = 'https://api-homebeer.herokuapp.com/receitas?nome_like=' + pedido_receita
+            response = requests.get(url, headers=headers)
+            receita = response.json()[0]
+            ingredientes = ""
+            for i in receita['ingredientes']:
+                ingredientes += F"{i['nome']} {i['quantidade']} {i['unidadeMedida']}. "
 
-        brassagem = ""
-        for i in receita['brassagem']:
-            brassagem +=  F"{i['temperatura']} graus célsius, por {i['tempo']} minutos. "
+            brassagem = ""
+            for i in receita['brassagem']:
+                brassagem +=  F"{i['temperatura']} graus célsius, por {i['tempo']} minutos. "
 
-        fervura = ""
-        for i in receita['fervura']['ingredientes']:
-            fervura += F"{i['quantidade']} {i['unidadeMedida']} de {i['nome']} serão adicionados aos {i['tempo']} minutos. "
+            fervura = ""
+            for i in receita['fervura']['ingredientes']:
+                fervura += F"{i['quantidade']} {i['unidadeMedida']} de {i['nome']} serão adicionados aos {i['tempo']} minutos. "
 
-        speak_output = F"""\
-        A cerveja {receita['nome']} é uma {receita['descricao']}. \
-        Seu tempo médio de produção é de {receita['tempoMedio']} minutos e produz {receita['quantidadeLitros']} litros. \
-        Os ingredientes utilizados são: {ingredientes}\
-        Durante sua fase de aquecimento, a cerveja é aquecida a uma temperatura de {receita['aquecimento']['temperatura']} graus célsius. \
-        Durante a brassagem, será realizado os seguintes degraus de aquecimento:  A temperatura vai ficar em {brassagem} \
-        A fervura vai durar um tempo total de {receita['fervura']['tempoTotal']} minutos. E os seguintes ingredientes vão ser adicionados: {fervura}\
-        """
+            speak_output = F"""\
+            A cerveja {receita['nome']} é uma {receita['descricao']}. \
+            Seu tempo médio de produção é de {receita['tempoMedio']} minutos e produz {receita['quantidadeLitros']} litros. \
+            Os ingredientes utilizados são: {ingredientes}\
+            Durante sua fase de aquecimento, a cerveja é aquecida a uma temperatura de {receita['aquecimento']['temperatura']} graus célsius. \
+            Durante a brassagem, será realizado os seguintes degraus de aquecimento:  A temperatura vai ficar em {brassagem} \
+            A fervura vai durar um tempo total de {receita['fervura']['tempoTotal']} minutos. E os seguintes ingredientes vão ser adicionados: {fervura}\
+            """
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -259,36 +283,44 @@ class visualizarProcessotHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        slots = handler_input.request_envelope.request.intent.slots
-        etapa = slots['processo'].value
-
-
-        headers = {'Authorization': chave}
-        response = requests.get('https://api-homebeer.herokuapp.com/processo/{}'.format(etapa), headers=headers)
-        processo = response.json()
-
-        fala_a=''
-        fala_b=''
-
-        if etapa== 'brassagem':
-            qnt_degrais_temperatura = len(processo['etapas'])
-            fala_a = 'No processo de '+etapa+' encontrei '+ str(qnt_degrais_temperatura)+' degrais de temperatura. O mosto será aquecido a uma temperatura de '
-
-            for i in range(len(processo['etapas'])):
-                fala_b+= processo['etapas'][i]['temperatura'] +' graus célsius por '+ processo['etapas'][i]['tempo']+' minutos, '
-            fala_final=fala_a+ fala_b[:-2]
-
-        elif etapa == 'aquecimento':
-            fala_final= 'No processo de '+ etapa + ' o mosto será aquecido a uma temperatura de '+processo['etapas'][0]['temperatura']+' graus célsius.'
-        elif etapa == 'fervura':
-            fala_a = "No processo de "+ etapa+' é necessário inserir os seguintes ingredientes: '
-            for ingrediente in processo['etapas'][0]['ingredientes']:
-                fala_b+=ingrediente['quantidade']+' '+ingrediente['unidadeMedida']+' de ' +ingrediente['nome']+' aos '+ingrediente['tempo'] +' minutos, '
-            fala_final= fala_a +fala_b[:-2]
+        response = table.query(
+        KeyConditionExpression=Key('id').eq(userID)
+        )
+        query = response['Items'][0]
+        if not 'APIToken' in query or not query['APIToken']:
+            speak_output = "Adicione o Token de sua cervejaria para prosseguir."
         else:
-            fala_final= "Não foi encontrado um processo com este nome, os processos disponíveis são: brassagem, aquecimento e fervura."
+            chave = query['APIToken']
+            slots = handler_input.request_envelope.request.intent.slots
+            etapa = slots['processo'].value
 
-        speak_output=fala_final
+
+            headers = {'Authorization': chave}
+            response = requests.get('https://api-homebeer.herokuapp.com/processo/{}'.format(etapa), headers=headers)
+            processo = response.json()
+
+            fala_a=''
+            fala_b=''
+
+            if etapa== 'brassagem':
+                qnt_degrais_temperatura = len(processo['etapas'])
+                fala_a = 'No processo de '+etapa+' encontrei '+ str(qnt_degrais_temperatura)+' degrais de temperatura. O mosto será aquecido a uma temperatura de '
+
+                for i in range(len(processo['etapas'])):
+                    fala_b+= processo['etapas'][i]['temperatura'] +' graus célsius por '+ processo['etapas'][i]['tempo']+' minutos, '
+                fala_final=fala_a+ fala_b[:-2]
+
+            elif etapa == 'aquecimento':
+                fala_final= 'No processo de '+ etapa + ' o mosto será aquecido a uma temperatura de '+processo['etapas'][0]['temperatura']+' graus célsius.'
+            elif etapa == 'fervura':
+                fala_a = "No processo de "+ etapa+' é necessário inserir os seguintes ingredientes: '
+                for ingrediente in processo['etapas'][0]['ingredientes']:
+                    fala_b+=ingrediente['quantidade']+' '+ingrediente['unidadeMedida']+' de ' +ingrediente['nome']+' aos '+ingrediente['tempo'] +' minutos, '
+                fala_final= fala_a +fala_b[:-2]
+            else:
+                fala_final= "Não foi encontrado um processo com este nome, os processos disponíveis são: brassagem, aquecimento e fervura."
+
+            speak_output=fala_final
         return (
             handler_input.response_builder
                 .speak(speak_output)
