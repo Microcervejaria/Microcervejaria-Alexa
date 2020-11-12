@@ -182,7 +182,10 @@
                     "slots": [
                         {
                             "name": "token",
-                            "type": "AMAZON.SearchQuery"
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{token}"
+                            ]
                         }
                     ],
                     "samples": [
@@ -360,9 +363,10 @@
                         {
                             "name": "token",
                             "type": "AMAZON.SearchQuery",
-                            "confirmationRequired": false,
+                            "confirmationRequired": true,
                             "elicitationRequired": true,
                             "prompts": {
+                                "confirmation": "Confirm.Slot.1070486586965.472649827470",
                                 "elicitation": "Elicit.Slot.587748034064.558237133285"
                             }
                         }
@@ -405,6 +409,15 @@
                     {
                         "type": "PlainText",
                         "value": "Informe o Token que se encontra na sua microcervejaria"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1070486586965.472649827470",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Seu token é {token} ?"
                     }
                 ]
             }
