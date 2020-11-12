@@ -209,23 +209,28 @@
                     ]
                 },
                 {
-                    "name": "temperaturaAtual",
+                    "name": "visualizarProcessoAtual",
                     "slots": [],
                     "samples": [
-                        "temperatura atual",
-                        "que temperatura está",
-                        "qual temperatura ",
-                        "qual temperatura atual do sistema",
-                        "qual a temperatura atual "
+                        "qual processo esta",
+                        "qual o processo que esta acontecendo",
+                        "qual o processo atual"
                     ]
                 },
                 {
-                  "name": "visualizarProcessoAtual",
-                  "slots": [],
-                  "samples": [
-                      "qual processo esta",
-                      "qual o processo que esta acontecendo",
-                      "qual o processo atual"
+                    "name": "lerTempoRestante",
+                    "slots": [],
+                    "samples": [
+                        "Falta quanto tempo para acabar",
+                        "Já tá acabando",
+                        "Quanto tempo falta para finalizar",
+                        "Tempo restante",
+                        "Tempo para acabar",
+                        "Quanto tempo falta para terminar",
+                        "tempo para acabar processo",
+                        "tempo restante do processo",
+                        "qual tempo restante",
+                        "quanto tempo falta"
                     ]
                 }
             ],
