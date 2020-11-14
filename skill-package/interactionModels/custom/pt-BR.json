@@ -235,6 +235,18 @@
                         "qual tempo restante",
                         "quanto tempo falta"
                     ]
+                },
+                {
+                    "name": "temperaturaAtual",
+                    "slots": [],
+                    "samples": [
+                        "temperatura",
+                        "qual a temperatura atual",
+                        "qual temperatura atual do sistema",
+                        "qual a temperatura",
+                        "que temperatura está",
+                        "temperatura atual"
+                    ]
                 }
             ],
             "types": [
